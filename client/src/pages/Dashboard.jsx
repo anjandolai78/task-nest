@@ -24,7 +24,8 @@ const Dashboard = () => {
   const fetchUserDetails = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:1000/api/v1/userDetails",
+        //"http://localhost:1000/api/v1/userDetails",
+         "https://task-nest-backend-2rr3.onrender.com/api/v1/userDetails",
         { withCredentials: true }
       );
       setTasks(res.data.tasks);

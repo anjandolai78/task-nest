@@ -15,7 +15,8 @@ const change =(e) =>{
 const register = async (e) => {
   e.preventDefault();
   try {
-    const res = await axios.post("http://localhost:1000/api/v1/register", Values);
+    //const res = await axios.post("http://localhost:1000/api/v1/register", Values);
+    const res = await axios.post("https://task-nest-backend-2rr3.onrender.com/api/v1/register", Values);
     alert(res.data.success); // prints success message if registration works
     navigate("/login");
   } catch (error) {

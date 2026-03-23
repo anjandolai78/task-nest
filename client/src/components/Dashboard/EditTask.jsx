@@ -25,7 +25,7 @@ const EditTask = ({ setEditTaskDiv, EditTaskId, fetchUserDetails }) => {
       const fetch = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:1000/api/v1/getTask/${EditTaskId}`,
+            `https://task-nest-backend-2rr3.onrender.com/api/v1/getTask/${EditTaskId}`,
             { withCredentials: true }
           );
 
@@ -55,8 +55,8 @@ const EditTask = ({ setEditTaskDiv, EditTaskId, fetchUserDetails }) => {
     e.preventDefault();
     try {
       const url = EditTaskId
-        ? `http://localhost:1000/api/v1/editTask/${EditTaskId}`
-        : `http://localhost:1000/api/v1/addTask`;
+        ? `https://task-nest-backend-2rr3.onrender.com/api/v1/editTask/${EditTaskId}`
+        : `https://task-nest-backend-2rr3.onrender.com/api/v1/addTask`;
 
       const res = await axios({
         method: EditTaskId ? "put" : "post",
@@ -79,7 +79,7 @@ const EditTask = ({ setEditTaskDiv, EditTaskId, fetchUserDetails }) => {
   const deleteTask = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:1000/api/v1/deleteTask/${EditTaskId}`,
+        `https://task-nest-backend-2rr3.onrender.com/api/v1/deleteTask/${EditTaskId}`,
         { withCredentials: true }
       );
 

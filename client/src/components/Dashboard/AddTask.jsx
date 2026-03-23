@@ -26,7 +26,7 @@ const AddTask = ({ setAddTaskDiv, fetchUserDetails }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/addTask",
+        "https://task-nest-backend-2rr3.onrender.com/api/v1/addTask",
         Values,
         { withCredentials: true }
       );

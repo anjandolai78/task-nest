@@ -6,7 +6,7 @@ const Header = ({setAddTaskDiv}) => {
   const navigate = useNavigate();
   const logout = async () => {
     try{
-   const res = await axios.post("http://localhost:1000/api/v1/logout", {},{withCredentials: true});
+   const res = await axios.post("https://task-nest-backend-2rr3.onrender.com/api/v1/logout", {},{withCredentials: true});
    alert(res.data.message);
    localStorage.clear("userLoggIn");
    navigate("/login");
