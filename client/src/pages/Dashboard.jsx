@@ -9,6 +9,8 @@ import YetToStart from "../components/Dashboard/YetToStart";
 import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 const Dashboard = () => {
   const [AddTaskDiv, setAddTaskDiv] = useState("hidden");
   const [EditTaskDiv, setEditTaskDiv] = useState("hidden");
@@ -17,20 +19,26 @@ const Dashboard = () => {
 
   // Search , Filter , Sort state
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all"); // all, yetToStart, inProgress, completed
-  const [sortOrder, setSortOrder] = useState("none"); // none, asc, desc
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("none");
 
-  // Fetch tasks
+  // ✅ Fetch tasks WITH TOKEN
   const fetchUserDetails = async () => {
     try {
+      const token = localStorage.getItem("token");
+
       const res = await axios.get(
-        //"http://localhost:1000/api/v1/userDetails",
-         "https://task-nest-backend-2rr3.onrender.com/api/v1/userDetails",
-        { withCredentials: true }
+        `${backendUrl}/api/v1/userDetails`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       setTasks(res.data.tasks);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching tasks:", error);
     }
   };
 
@@ -44,7 +52,7 @@ const Dashboard = () => {
     }
   }, []);
 
-  //  Calculate task count
+  // Calculate task count
   const totalTasks =
     (Tasks?.[0]?.yetToStart?.length || 0) +
     (Tasks?.[1]?.inProgress?.length || 0) +
@@ -55,13 +63,13 @@ const Dashboard = () => {
     (Tasks?.[0]?.yetToStart?.length || 0) +
     (Tasks?.[1]?.inProgress?.length || 0);
 
-  // Filter and sort tasks for columns
+  // Filter and sort tasks
   const filterAndSortTasks = (tasksArray) => {
     if (!tasksArray) return [];
 
-    let filtered = tasksArray;
+    let filtered = [...tasksArray];
 
-    // Search by title
+    // Search
     if (searchTerm) {
       filtered = filtered.filter((task) =>
         task.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -70,14 +78,17 @@ const Dashboard = () => {
 
     // Status filter
     if (statusFilter !== "all") {
-      filtered = filtered.filter((task) => task.status === statusFilter);
+      filtered = filtered.filter(
+        (task) => task.status === statusFilter
+      );
     }
 
-    // Sort by dueDate
+    // Sort
     if (sortOrder !== "none") {
       filtered.sort((a, b) => {
         if (!a.dueDate) return 1;
         if (!b.dueDate) return -1;
+
         return sortOrder === "asc"
           ? new Date(a.dueDate) - new Date(b.dueDate)
           : new Date(b.dueDate) - new Date(a.dueDate);
@@ -99,7 +110,7 @@ const Dashboard = () => {
         />
       </div>
 
-      
+      {/* Stats */}
       {Tasks && (
         <div className="px-12 py-4 flex gap-4 bg-zinc-100">
           <div className="flex-1 bg-blue-100 text-blue-800 px-4 py-2 rounded shadow text-center">
@@ -117,7 +128,7 @@ const Dashboard = () => {
         </div>
       )}
 
-       {/* Search + Filter + Sort Controls  */}
+      {/* Search + Filter + Sort */}
       <div className="px-12 py-2 flex gap-4 items-center bg-zinc-100">
         <input
           type="text"
@@ -149,67 +160,47 @@ const Dashboard = () => {
         </select>
       </div>
 
-      {/* Three Columns */}
-      <div className="px-12 py-4 flex gap-12 bg-zinc-100 min-h[89vh] max-h-auto">
+      {/* Columns */}
+      <div className="px-12 py-4 flex gap-12 bg-zinc-100 min-h-[89vh]">
         <div className="w-1/3">
           <StackTitle title={"Yet To Start"} />
-          <div className="pt-2">
-            {Tasks && (
-              <YetToStart
-                task={filterAndSortTasks(Tasks[0]?.yetToStart)}
-                setEditTaskDiv={setEditTaskDiv}
-                setEditTaskId={setEditTaskId}
-              />
-            )}
-          </div>
+          <YetToStart
+            task={filterAndSortTasks(Tasks?.[0]?.yetToStart)}
+            setEditTaskDiv={setEditTaskDiv}
+            setEditTaskId={setEditTaskId}
+          />
         </div>
 
         <div className="w-1/3">
           <StackTitle title={"In Progress"} />
-          <div className="pt-2">
-            {Tasks && (
-              <InProgress
-                task={filterAndSortTasks(Tasks[1]?.inProgress)}
-                setEditTaskDiv={setEditTaskDiv}
-                setEditTaskId={setEditTaskId}
-              />
-            )}
-          </div>
+          <InProgress
+            task={filterAndSortTasks(Tasks?.[1]?.inProgress)}
+            setEditTaskDiv={setEditTaskDiv}
+            setEditTaskId={setEditTaskId}
+          />
         </div>
 
         <div className="w-1/3">
           <StackTitle title={"Completed"} />
-          <div className="pt-2">
-            {Tasks && (
-              <Completed
-                task={filterAndSortTasks(Tasks[2]?.completed)}
-                setEditTaskDiv={setEditTaskDiv}
-                setEditTaskId={setEditTaskId}
-              />
-            )}
-          </div>
+          <Completed
+            task={filterAndSortTasks(Tasks?.[2]?.completed)}
+            setEditTaskDiv={setEditTaskDiv}
+            setEditTaskId={setEditTaskId}
+          />
         </div>
       </div>
 
-      {/* Add Task  */}
-      <div
-        className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 bg-zinc-800 opacity-85`}
-      ></div>
-      <div
-        className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center`}
-      >
+      {/* Add Task Modal */}
+      <div className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 bg-zinc-800 opacity-85`}></div>
+      <div className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center`}>
         <AddTask setAddTaskDiv={setAddTaskDiv} fetchUserDetails={fetchUserDetails} />
       </div>
 
-      {/* Edit Task  */}
-      <div
-        className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 bg-zinc-800 opacity-85`}
-      ></div>
-      <div
-        className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center`}
-      >
+      {/* Edit Task Modal */}
+      <div className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 bg-zinc-800 opacity-85`}></div>
+      <div className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center`}>
         <EditTask
-          key={EditTaskId ? EditTaskId : "new"}
+          key={EditTaskId || "new"}
           EditTaskId={EditTaskId}
           setEditTaskDiv={(val) => {
             setEditTaskDiv(val);
