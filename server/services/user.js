@@ -41,12 +41,12 @@ const login = async (req,res) =>{
       bcrypt.compare(password, checkUser.password, (err,data)=>{
         if(data){
           const token = jwt.sign({id:checkUser._id, email:checkUser.email},process.env.JWT_SECRET, {expiresIn:"30d"} );
-         res.clearCookie("tasktrackerUserToken", {
+         res.cookie("tasktrackerUserToken", token, {
            httpOnly: true,
-          //  maxAge: 30 * 24 * 60 * 60 * 1000,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "None" : "lax",
-});
+           maxAge: 30 * 24 * 60 * 60 * 1000,
+            secure: true,
+          sameSite: "None",
+          });
          return res.status(200).json({success:"Login Success!"});
         } else{
           return res.status(400).json({error:"Invalid Credentials"});
