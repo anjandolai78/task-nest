@@ -9,7 +9,7 @@ import YetToStart from "../components/Dashboard/YetToStart";
 import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+ const backendUrl = "https://task-nest-backend-2rr3.onrender.com";;
 
 const Dashboard = () => {
   const [AddTaskDiv, setAddTaskDiv] = useState("hidden");
@@ -22,7 +22,7 @@ const Dashboard = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("none");
 
-  // ✅ Fetch tasks WITH TOKEN
+  // Fetch tasks WITH TOKEN
   const fetchUserDetails = async () => {
     try {
       const token = localStorage.getItem("token");
