@@ -22,7 +22,7 @@ const Login = () => {
         "https://task-nest-backend-2rr3.onrender.com/api/v1/login",
         Values
       );
-
+         console.log(res.data);
       //  SAVE TOKEN (THIS WAS MISSING)
       localStorage.setItem("token", res.data.token);
 
