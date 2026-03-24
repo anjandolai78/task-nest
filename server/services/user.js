@@ -41,9 +41,9 @@ const login = async (req,res) =>{
       bcrypt.compare(password, checkUser.password, (err,data)=>{
         if(data){
           const token = jwt.sign({id:checkUser._id, email:checkUser.email},process.env.JWT_SECRET, {expiresIn:"30d"} );
-         res.cookie("tasktrackerUserToken", token, {
+         res.clearCookie("tasktrackerUserToken", {
            httpOnly: true,
-           maxAge: 30 * 24 * 60 * 60 * 1000,
+          //  maxAge: 30 * 24 * 60 * 60 * 1000,
           secure: process.env.NODE_ENV === "production",
           sameSite: process.env.NODE_ENV === "production" ? "None" : "lax",
 });

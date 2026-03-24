@@ -19,12 +19,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://task-nest-backend-2rr3.onrender.com/api/v1/login",
-        Values
-      );
+          "https://task-nest-backend-2rr3.onrender.com/api/v1/login",
+        Values,
+       { withCredentials: true } 
+       );
          console.log(res.data);
-      //  SAVE TOKEN (THIS WAS MISSING)
-      localStorage.setItem("token", res.data.token);
+     
+      //localStorage.setItem("token", res.data.token);
 
       // existing logic
       localStorage.setItem("userLoggedIn", "yes");

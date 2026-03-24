@@ -9,7 +9,7 @@ import YetToStart from "../components/Dashboard/YetToStart";
 import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 
- const backendUrl = "https://task-nest-backend-2rr3.onrender.com";;
+ const backendUrl = "https://task-nest-backend-2rr3.onrender.com";
 
 const Dashboard = () => {
   const [AddTaskDiv, setAddTaskDiv] = useState("hidden");
@@ -25,15 +25,9 @@ const Dashboard = () => {
   // Fetch tasks WITH TOKEN
   const fetchUserDetails = async () => {
     try {
-      const token = localStorage.getItem("token");
-
       const res = await axios.get(
-        `${backendUrl}/api/v1/userDetails`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      `${backendUrl}/api/v1/userDetails`,
+      { withCredentials: true }  
       );
 
       setTasks(res.data.tasks);
