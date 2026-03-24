@@ -46,6 +46,7 @@ const login = async (req,res) =>{
            maxAge: 30 * 24 * 60 * 60 * 1000,
             secure: true,
           sameSite: "None",
+           path: "/", 
           });
          return res.status(200).json({success:"Login Success!"});
         } else{
