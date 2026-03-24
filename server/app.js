@@ -8,6 +8,7 @@ const userApis = require("./controllers/user");
  const taskApis = require("./controllers/task")
 
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(
   cors({
   origin:["https://task-nest-frontend.onrender.com"],
