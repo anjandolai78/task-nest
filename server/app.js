@@ -19,10 +19,7 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
-app.options("*", cors({
-  origin: "https://task-nest-frontend.onrender.com",
-  credentials: true,
-}));
+
 
 // Mount the router
 app.use("/api/v1", userApis);
