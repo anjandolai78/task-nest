@@ -2,12 +2,10 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// ---------------- REGISTER ----------------
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validation
     if (!username || !email || !password) {
       return res.status(400).json({ error: "All fields are required!" });
     }
@@ -20,7 +18,6 @@ const register = async (req, res) => {
       return res.status(400).json({ error: "Password must have 6 characters!" });
     }
 
-    // Check existing user
     const checkUsers = await User.findOne({
       $or: [{ email }, { username }],
     });
@@ -29,8 +26,8 @@ const register = async (req, res) => {
       return res.status(400).json({ error: "Username or Email already exists!" });
     }
 
-    // Hash password (optimized)
-    const hashPass = await bcrypt.hash(password, 8);
+  
+    const hashPass = await bcrypt.hash(password, 7);
 
     const newUser = new User({
       username,
@@ -46,7 +43,6 @@ const register = async (req, res) => {
   }
 };
 
-// ---------------- LOGIN ----------------
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -61,7 +57,6 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
 
-    // Optimized bcrypt compare (async/await)
     const isMatch = await bcrypt.compare(password, checkUser.password);
 
     if (!isMatch) {
@@ -88,7 +83,6 @@ const login = async (req, res) => {
   }
 };
 
-// ---------------- LOGOUT ----------------
 const logout = async (req, res) => {
   try {
     res.clearCookie("tasktrackerUserToken", {
@@ -104,7 +98,6 @@ const logout = async (req, res) => {
   }
 };
 
-// ---------------- USER DETAILS ----------------
 const userDetails = async (req, res) => {
   try {
     const { user } = req;
