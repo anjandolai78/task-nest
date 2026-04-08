@@ -7,23 +7,42 @@ const TaskCard = ({data}) => {
     window.location.reload();
   };
 
-  // Format dates
-  const formattedDate = data.dueDate ? new Date(data.dueDate).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }) : null;
+  // Safely parse dueDate
+  const formattedDate = data.dueDate
+    ? (() => {
+        const d = new Date(data.dueDate);
+        return isNaN(d.getTime()) ? null : d.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      })()
+    : null;
 
-  const formattedCreatedAt = data.createdAt ? new Date(data.createdAt).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }) : null;
+  // Safely parse createdAt
+  const formattedCreatedAt = data.createdAt
+    ? (() => {
+        const d = new Date(data.createdAt);
+        return isNaN(d.getTime()) ? null : d.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      })()
+    : null;
 
   // Safely format priority
   const displayPriority = data.priority
     ? data.priority.charAt(0).toUpperCase() + data.priority.slice(1)
-    : "Low"; // fallback if undefined
+    : "Low";
+
+  // Determine badge color safely
+  const priorityClass =
+    data.priority === "medium"
+      ? "text-yellow-600 bg-yellow-100"
+      : data.priority === "high"
+      ? "text-red-600 bg-red-100"
+      : "text-green-600 bg-green-100"; // default low or undefined
 
   return (
     <button
@@ -31,16 +50,10 @@ const TaskCard = ({data}) => {
       onClick={(event)=>showEditDiv(event,data._id)}
     >
       <div className="flex items-center justify-between">
-        <h1 className="">{data.title}</h1>
+        <h1 className="font-medium">{data.title}</h1>
 
         <span
-          className={`text-xs ${
-            data.priority === "low"
-              ? "text-green-600 bg-green-100"
-              : data.priority === "medium"
-              ? "text-yellow-600 bg-yellow-100"
-              : "text-red-600 bg-red-100"
-          } px-2 py-0.5 rounded-full`}
+          className={`text-xs font-medium ${priorityClass} px-2 py-0.5 rounded-full`}
         >
           {displayPriority}
         </span>
