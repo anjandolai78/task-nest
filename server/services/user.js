@@ -103,7 +103,7 @@ const userDetails = async (req, res) => {
     const { user } = req;
 
     const getDetails = await User.findById(user._id)
-      .populate("tasks", "title status createdAt") // optimized populate
+      .populate("tasks") 
       .select("-password");
 
     if (!getDetails) {
