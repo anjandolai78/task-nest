@@ -7,7 +7,7 @@ const TaskCard = ({data}) => {
     window.location.reload();
   };
 
-  // Safely parse dueDate
+  // Safely format dates
   const formattedDate = data.dueDate
     ? (() => {
         const d = new Date(data.dueDate);
@@ -19,7 +19,6 @@ const TaskCard = ({data}) => {
       })()
     : null;
 
-  // Safely parse createdAt
   const formattedCreatedAt = data.createdAt
     ? (() => {
         const d = new Date(data.createdAt);
@@ -31,18 +30,17 @@ const TaskCard = ({data}) => {
       })()
     : null;
 
-  // Safely format priority
+  // Display priority safely
   const displayPriority = data.priority
     ? data.priority.charAt(0).toUpperCase() + data.priority.slice(1)
     : "Low";
 
-  // Determine badge color safely
   const priorityClass =
     data.priority === "medium"
       ? "text-yellow-600 bg-yellow-100"
       : data.priority === "high"
       ? "text-red-600 bg-red-100"
-      : "text-green-600 bg-green-100"; // default low or undefined
+      : "text-green-600 bg-green-100";
 
   return (
     <button
@@ -51,10 +49,7 @@ const TaskCard = ({data}) => {
     >
       <div className="flex items-center justify-between">
         <h1 className="font-medium">{data.title}</h1>
-
-        <span
-          className={`text-xs font-medium ${priorityClass} px-2 py-0.5 rounded-full`}
-        >
+        <span className={`text-xs font-medium ${priorityClass} px-2 py-0.5 rounded-full`}>
           {displayPriority}
         </span>
       </div>

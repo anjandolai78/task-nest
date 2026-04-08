@@ -12,7 +12,7 @@ const AddTask = ({ setAddTaskDiv, fetchUserDetails }) => {
 
   const [Values, setValues] = useState(defaultValues);
 
-  //  Reset form every time 
+  // Reset form when component mounts
   useEffect(() => {
     setValues(defaultValues);
   }, []);
@@ -24,25 +24,38 @@ const AddTask = ({ setAddTaskDiv, fetchUserDetails }) => {
 
   const submit = async (e) => {
     e.preventDefault();
+
+    // Prepare payload for backend
+    const payload = {
+      title: Values.title,
+      description: Values.description,
+      priority: Values.priority || "low",
+      status: Values.status || "yetToStart",
+      dueDate: Values.dueDate || null, // convert empty string to null
+    };
+
+    console.log("Submitting task payload:", payload);
+
     try {
       const res = await axios.post(
         "https://task-nest-backend-2rr3.onrender.com/api/v1/addTask",
-        Values,
+        payload,
         { withCredentials: true }
       );
 
       alert(res.data.success);
 
-      // reset and close
+      // reset form
       setValues(defaultValues);
       setAddTaskDiv("hidden");
+
+      // Refresh dashboard tasks immediately
       fetchUserDetails();
     } catch (error) {
       alert(error.response?.data?.error || error.message);
     }
   };
 
-  
   const handleCancel = (e) => {
     e.preventDefault();
     setValues(defaultValues);
@@ -102,13 +115,15 @@ const AddTask = ({ setAddTaskDiv, fetchUserDetails }) => {
           onChange={change}
           className="border px-2 py-1 rounded border-zinc-300 outline-none h-[25vh]"
         ></textarea>
-         <input
+
+        <input
           type="date"
           name="dueDate"
           value={Values.dueDate}
           onChange={change}
           className="border px-2 py-1 rounded border-zinc-300 outline-none"
         />
+
         <div className="flex flex-col gap-2">
           <button
             type="submit"
