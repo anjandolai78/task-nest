@@ -1,6 +1,7 @@
 import React from 'react';
 
 const TaskCard = ({data}) => {
+    console.log("TaskCard Data:", data);
   const showEditDiv = (e,id)=>{
     e.preventDefault();
     window.sessionStorage.setItem("editTaskId",id);
@@ -73,6 +74,7 @@ const TaskCard = ({data}) => {
         </p>
       )}
     </button>
+    
   );
 };
 

@@ -29,7 +29,7 @@ const Dashboard = () => {
       `${backendUrl}/api/v1/userDetails`,
       { withCredentials: true }  
       );
-
+     console.log("API Response Tasks:", res.data.tasks);
       setTasks(res.data.tasks);
     } catch (error) {
       console.log("Error fetching tasks:", error);
