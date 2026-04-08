@@ -25,6 +25,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1", userApis);
 app.use("/api/v1", taskApis);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server started at PORT = ${process.env.PORT}`);
+const PORT = process.env.PORT || 1000;
+
+app.listen(PORT, () => {
+  console.log(`Server started at PORT = ${PORT}`);
 });
