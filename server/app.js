@@ -24,6 +24,9 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
+app.get("/test", (req, res) => {
+  res.json({ message: "Test route working" });
+});
 
 // Routes
 app.use("/api/v1", userApis);
