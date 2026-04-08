@@ -32,18 +32,16 @@ const TaskCard = ({data}) => {
     : null;
 
   // Safely format priority
-  const displayPriority = data.priority
-    ? data.priority.charAt(0).toUpperCase() + data.priority.slice(1)
-    : "Low";
+  const displayPriority =
+  data.priority?.charAt(0).toUpperCase() + data.priority?.slice(1) || "Low";
 
   // Determine badge color safely
   const priorityClass =
-    data.priority === "medium"
-      ? "text-yellow-600 bg-yellow-100"
-      : data.priority === "high"
-      ? "text-red-600 bg-red-100"
-      : "text-green-600 bg-green-100"; // default low or undefined
-
+  data.priority === "high"
+    ? "text-red-600 bg-red-100"
+    : data.priority === "medium"
+    ? "text-yellow-600 bg-yellow-100"
+    : "text-green-600 bg-green-100";
   return (
     <button
       className="bg-white rounded px-4 w-full py-2 hover:shadow transition-all duration-300"
