@@ -29,9 +29,13 @@ const Header = ({setAddTaskDiv}) => {
   </svg>
   Add Task
 </button>
-        <button className="text-2xl hover:text-red-600 transition-all duration-300" onClick={logout}>
-        <IoLogOutOutline/>
-        </button>
+        <button 
+  onClick={logout}
+  className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-lg font-semibold bg-gray-900 text-white shadow-lg shadow-gray-900/10 hover:bg-gray-800 transition-all active:scale-95 duration-300"
+>
+  <IoLogOutOutline className="text-2xl" />
+  <span>Logout</span>
+</button>
     </div>
     </div>
   );
