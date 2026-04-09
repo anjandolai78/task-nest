@@ -20,8 +20,15 @@ const Header = ({setAddTaskDiv}) => {
     <h1 className="text-2xl text-blue-800 font-semibold">TaskNest</h1>
     </div>
     <div className="flex gap-8">
-      <button className="hover:text-blue-800 transition-all duration-300" onClick={()=>setAddTaskDiv("block")}>
-        Add Task</button>
+      <button 
+  onClick={() => setAddTaskDiv("block")}
+  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold transition-all shadow-md active:scale-95 flex items-center gap-2"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+  </svg>
+  Add Task
+</button>
         <button className="text-2xl hover:text-red-600 transition-all duration-300" onClick={logout}>
         <IoLogOutOutline/>
         </button>
