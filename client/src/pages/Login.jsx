@@ -23,7 +23,7 @@ const Login = () => {
         Values,
        { withCredentials: true } 
        );
-         console.log(res.data);
+         //console.log(res.data); //Don't print in console
      
       //localStorage.setItem("token", res.data.token);
 

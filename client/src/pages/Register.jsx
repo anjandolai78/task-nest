@@ -20,7 +20,7 @@ const Register = () => {
 
   const register = async (e) => {
     e.preventDefault();
-     console.log("Register function called");
+     //console.log("Register function called");
     try {
       setLoading(true); 
 
