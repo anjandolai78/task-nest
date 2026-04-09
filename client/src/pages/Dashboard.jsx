@@ -228,6 +228,7 @@ const Dashboard = () => {
   const [EditTaskId, setEditTaskId] = useState(null);
   const [Tasks, setTasks] = useState();
 
+  // Search, Filter, Sort state
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState("none");
@@ -274,9 +275,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="w-full relative bg-gray-50 min-h-screen">
-      {/* 1. Header with soft border */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div className="w-full relative bg-gray-50 min-h-screen font-sans">
+      {/* 1. Header Area */}
+      <div className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-10">
         <Header
           setAddTaskDiv={(val) => {
             setEditTaskId(null);
@@ -285,42 +286,69 @@ const Dashboard = () => {
         />
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 py-8">
-        {/* 2. Stats Section - Changed to White Cards with colored accents */}
+      <div className="max-w-[1400px] mx-auto px-10 py-8">
+        
+        {/* 2. Stats Section with Icons and Specific Borders */}
         {Tasks && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-              <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Total Tasks</h3>
-              <p className="text-3xl font-extrabold text-blue-600">{totalTasks}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {/* Total Tasks */}
+            <div className="bg-white p-6 rounded-xl border border-blue-200 shadow-sm flex items-center gap-5 transition-all hover:shadow-md">
+              <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Tasks</p>
+                <p className="text-3xl font-black text-slate-800">{totalTasks}</p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-              <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Completed</h3>
-              <p className="text-3xl font-extrabold text-green-500">{completedTasks}</p>
+
+            {/* Completed */}
+            <div className="bg-white p-6 rounded-xl border border-green-200 shadow-sm flex items-center gap-5 transition-all hover:shadow-md">
+              <div className="p-3 bg-green-50 rounded-lg border border-green-100">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Completed</p>
+                <p className="text-3xl font-black text-slate-800">{completedTasks}</p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
-              <h3 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Pending</h3>
-              <p className="text-3xl font-extrabold text-orange-400">{pendingTasks}</p>
+
+            {/* Pending */}
+            <div className="bg-white p-6 rounded-xl border border-yellow-300 shadow-sm flex items-center gap-5 transition-all hover:shadow-md">
+              <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pending</p>
+                <p className="text-3xl font-black text-slate-800">{pendingTasks}</p>
+              </div>
             </div>
           </div>
         )}
 
-        {/* 3. Search & Filters - Made cleaner and more professional */}
-        <div className="flex flex-wrap gap-4 items-center mb-8">
-          <div className="relative flex-1 min-w-[300px]">
+        {/* 3. Search + Filter Bar */}
+        <div className="flex flex-col md:flex-row gap-4 items-center mb-8 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+          <div className="relative flex-1 w-full">
             <input
               type="text"
               placeholder="Search by title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white shadow-sm"
+              className="w-full border-none bg-gray-50 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-500/10 text-sm"
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full md:w-auto">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border border-gray-200 rounded-lg px-4 py-2.5 outline-none bg-white shadow-sm text-sm font-medium text-gray-600 cursor-pointer hover:border-gray-300"
+              className="flex-1 md:flex-none border border-gray-200 rounded-lg px-4 py-2 text-sm bg-white font-medium text-gray-600 outline-none"
             >
               <option value="all">All Status</option>
               <option value="yetToStart">Yet To Start</option>
@@ -331,23 +359,22 @@ const Dashboard = () => {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="border border-gray-200 rounded-lg px-4 py-2.5 outline-none bg-white shadow-sm text-sm font-medium text-gray-600 cursor-pointer hover:border-gray-300"
+              className="flex-1 md:flex-none border border-gray-200 rounded-lg px-4 py-2 text-sm bg-white font-medium text-gray-600 outline-none"
             >
               <option value="none">Sort by Due Date</option>
-              <option value="asc">Oldest First</option>
-              <option value="desc">Newest First</option>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
             </select>
           </div>
         </div>
 
-        {/* 4. Kanban Columns - Added background containers for depth */}
-        <div className="flex flex-col md:flex-row gap-8 items-start">
-          <div className="w-full md:w-1/3 bg-gray-100/50 p-4 rounded-2xl border border-gray-200/60 min-h-[600px]">
-            <div className="mb-4 px-2 flex items-center justify-between">
+        {/* 4. Kanban Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Column 1 */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-gray-400"></div>
                 <StackTitle title={"Yet To Start"} />
-                <span className="bg-gray-200 text-gray-600 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                    {Tasks?.[0]?.yetToStart?.length || 0}
-                </span>
             </div>
             <YetToStart
               task={filterAndSortTasks(Tasks?.[0]?.yetToStart)}
@@ -356,12 +383,11 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="w-full md:w-1/3 bg-gray-100/50 p-4 rounded-2xl border border-gray-200/60 min-h-[600px]">
-            <div className="mb-4 px-2 flex items-center justify-between">
+          {/* Column 2 */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                 <StackTitle title={"In Progress"} />
-                <span className="bg-blue-100 text-blue-600 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                    {Tasks?.[1]?.inProgress?.length || 0}
-                </span>
             </div>
             <InProgress
               task={filterAndSortTasks(Tasks?.[1]?.inProgress)}
@@ -370,12 +396,11 @@ const Dashboard = () => {
             />
           </div>
 
-          <div className="w-full md:w-1/3 bg-gray-100/50 p-4 rounded-2xl border border-gray-200/60 min-h-[600px]">
-            <div className="mb-4 px-2 flex items-center justify-between">
+          {/* Column 3 */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full bg-green-500"></div>
                 <StackTitle title={"Completed"} />
-                <span className="bg-green-100 text-green-600 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                    {Tasks?.[2]?.completed?.length || 0}
-                </span>
             </div>
             <Completed
               task={filterAndSortTasks(Tasks?.[2]?.completed)}
@@ -386,24 +411,32 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Modals with better backdrop blur */}
-      <div className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity`}></div>
-      <div className={`w-full ${AddTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center z-50`}>
-        <AddTask setAddTaskDiv={setAddTaskDiv} fetchUserDetails={fetchUserDetails} />
-      </div>
+      {/* Modals */}
+      {AddTaskDiv === "block" && (
+        <>
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <AddTask setAddTaskDiv={setAddTaskDiv} fetchUserDetails={fetchUserDetails} />
+          </div>
+        </>
+      )}
 
-      <div className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity`}></div>
-      <div className={`w-full ${EditTaskDiv} h-screen fixed top-0 left-0 flex items-center justify-center z-50`}>
-        <EditTask
-          key={EditTaskId || "new"}
-          EditTaskId={EditTaskId}
-          setEditTaskDiv={(val) => {
-            setEditTaskDiv(val);
-            if (val === "hidden") setEditTaskId(null);
-          }}
-          fetchUserDetails={fetchUserDetails}
-        />
-      </div>
+      {EditTaskDiv === "block" && (
+        <>
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <EditTask
+              key={EditTaskId || "new"}
+              EditTaskId={EditTaskId}
+              setEditTaskDiv={(val) => {
+                setEditTaskDiv(val);
+                if (val === "hidden") setEditTaskId(null);
+              }}
+              fetchUserDetails={fetchUserDetails}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
