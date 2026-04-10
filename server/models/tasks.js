@@ -4,21 +4,21 @@ const Schema = mongoose.Schema;
 const taskSchema = new Schema({
   title: {
     type: String,
-    require: true
+    required: true
   },
   description: {
     type: String,
-    require: true
+    required: true
   },
   priority: {
     type: String,
-    require: true,
+    required: true,
     enum :["low","medium","high"],
     default: "low",
   },
   status: {
     type: String,
-    require: true,
+    required: true,
     enum :["yetToStart","inProgress","completed"],
     default: "yetToStart",
   },
@@ -29,5 +29,8 @@ const taskSchema = new Schema({
     required: true,
   },
 },{ timestamps: true });
+taskSchema.index({ user: 1 });
+taskSchema.index({ status: 1 });
+taskSchema.index({ priority: 1 });
 
 module.exports = mongoose.model("Task", taskSchema);
