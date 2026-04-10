@@ -78,7 +78,7 @@ const getTask = async (req, res) => {
     const taskDetails = await Task.findOne({
       _id: id,
       user: user._id,   
-    });
+    }).lean();
 
     return res.status(200).json({ taskDetails });
   } catch (error) {
